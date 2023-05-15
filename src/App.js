@@ -1,7 +1,23 @@
 import './App.css';
 import Headding from './Layouts/Headding';
+import firebaseConfig from './FirebaseConfig';
+import { getDatabase, ref, set, push } from "firebase/database";
+import { useState } from 'react';
 
 function App() {
+  const db = getDatabase();
+ 
+  // create Variable
+  let [all, setall] = useState()
+  let [add, setadd] = useState()
+  
+  // button
+  let handlebutton = ()=>{
+    console.log(add);
+    set(push(ref(db, 'Input-Counter/')), {
+    total : add
+    });
+  }
   return (
     <section className='bg-cyan-400 h-screen'>
       <div className='container mx-auto flex py-40 h-screen'>
@@ -9,9 +25,9 @@ function App() {
           <div className='flex justify-between'>
             <div className='text-center'>
               <Headding title='Add'/>
-              <input />
+              <input onChange={(e)=> setadd(e.target.value)} />
             </div>
-            <button className='bg-white px-6'>Button</button>
+            <button onClick={handlebutton} className='bg-white px-6'>Button</button>
             <div className='text-center'>
             <Headding title='Division'/>
               <input />
