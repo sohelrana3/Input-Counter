@@ -1,22 +1,61 @@
 import './App.css';
 import Headding from './Layouts/Headding';
-import firebaseConfig from './FirebaseConfig';
-import { getDatabase, ref, set, push } from "firebase/database";
-import { useState } from 'react';
+import { getDatabase, ref, set, push, onValue } from "firebase/database";
+import { useEffect, useRef, useState } from 'react';
 
 function App() {
   const db = getDatabase();
  
   // create Variable
-  let [all, setall] = useState()
+  let [err, seterr] = useState("")
   let [add, setadd] = useState()
+  let [Division, setDivision] = useState()
+  let [Minus, setMinus] = useState()
+  let [Multiplication, setMultiplication] = useState()
+  let [total, settotal] = useState(0)
+ 
+  // creaate uesref
+  let addref =useRef()
+  let Divisionref =useRef()
+  let Minusref =useRef()
+  let Multiplicationref =useRef()
+  // let [add, setadd] = useState()
+  // let [equl, setequl] = useState(0)
+  // let [plus, setplus] = useState(add + equl)
   
-  // button
-  let handlebutton = ()=>{
-    console.log(add);
-    set(push(ref(db, 'Input-Counter/')), {
-    total : add
-    });
+  // 
+//   useEffect(()=>{
+//     const todoref = ref(db, 'Input-Counter/');
+//     onValue(todoref, (snapshot) => {
+//       const data = snapshot.val();
+//       console.log(data);
+//       setall(data)
+      
+
+//     });
+
+//  }, [])
+// button
+
+let handlebutton = ()=>{
+  let data = total
+ if(!Divisionref.current.value && !Minusref.current.value && !Multiplicationref.current.value){
+  settotal( data + +add)
+  seterr("")
+ }else if(!addref.current.value && !Minusref.current.value && !Multiplicationref.current.value){
+  settotal( data / Division)
+  seterr("")
+ }else if(!addref.current.value && !Divisionref.current.value && !Multiplicationref.current.value){
+  settotal( data - Minus)
+  seterr("")
+ }else if(!addref.current.value && !Divisionref.current.value && !Minusref.current.value){
+  settotal( data * Multiplication)
+  seterr("")
+ }else{
+  seterr("Please one Inputbox")
+ }
+console.log(Divisionref.current.value);
+  
   }
   return (
     <section className='bg-cyan-400 h-screen'>
@@ -25,28 +64,32 @@ function App() {
           <div className='flex justify-between'>
             <div className='text-center'>
               <Headding title='Add'/>
-              <input onChange={(e)=> setadd(e.target.value)} />
+              <input ref={addref} onChange={(e)=> setadd(e.target.value)}/>
+             
             </div>
             <button onClick={handlebutton} className='bg-white px-6'>Button</button>
             <div className='text-center'>
             <Headding title='Division'/>
-              <input />
+              <input ref={Divisionref} onChange={(e)=> setDivision(e.target.value)} />
             </div>
           </div>
           <div className='flex justify-center'>
               <div className='text-center'>
-                <h2 className='text-white font-extrabold text-4xl'>0</h2>
-                <h3 className='text-white font-bold text-xl'>Erro</h3>
+              {/* {all.map(item=>(
+                <h3>{item.total}</h3>
+              ))} */}
+                <h2 className='text-white font-extrabold text-4xl' >{total}</h2>
+                <h3 className='text-white font-bold text-xl'>{err}</h3>
               </div>
           </div>
           <div className='flex justify-between'>
             <div className='text-center'>
             <Headding title='Minus'/> 
-              <input />
+            <input ref={Minusref} onChange={(e)=> setMinus(e.target.value)} />
             </div>
             <div className='text-center'>
              <Headding title='Multiplication'/> 
-              <input />
+             <input ref={Multiplicationref} onChange={(e)=> setMultiplication(e.target.value)} />
             </div>
           </div>
         </div>
