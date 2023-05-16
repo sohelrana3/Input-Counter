@@ -19,9 +19,7 @@ function App() {
   let Divisionref =useRef()
   let Minusref =useRef()
   let Multiplicationref =useRef()
-  // let [add, setadd] = useState()
-  // let [equl, setequl] = useState(0)
-  // let [plus, setplus] = useState(add + equl)
+  
   
   // 
 //   useEffect(()=>{
@@ -38,6 +36,9 @@ function App() {
 // button
 
 let handlebutton = ()=>{
+  
+
+  // data if funcion
   let data = total
  if(!Divisionref.current.value && !Minusref.current.value && !Multiplicationref.current.value){
   settotal( data + +add)
@@ -54,8 +55,7 @@ let handlebutton = ()=>{
  }else{
   seterr("Please one Inputbox")
  }
-console.log(Divisionref.current.value);
-  
+
   }
   return (
     <section className='bg-cyan-400 h-screen'>
