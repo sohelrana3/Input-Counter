@@ -24,7 +24,7 @@ function App() {
   
   useEffect(()=>{
     const starCountRef = ref(db, 'input-counter/');
-  onValue(starCountRef, (snapshot) => {
+    onValue(starCountRef, (snapshot) => {
     snapshot.forEach((item)=>{
       console.log(item.key, "=",item.val());
       settotal(item.val())
@@ -41,19 +41,25 @@ let handlebutton = ()=>{
  if(!Divisionref.current.value && !Minusref.current.value && !Multiplicationref.current.value){
   let aldata = data + +add
   settotal(aldata)
+  seterr("")
   set(ref(db, 'input-counter/'), {
     task: aldata
   });
-  seterr("")
+  set(push(ref(db, 'List/')), {
+    list: aldata
+  });
   
  }else if(!addref.current.value && !Minusref.current.value && !Multiplicationref.current.value){
   if(Divisionref.current.value > data){
-    seterr("Please one total number small")
+    seterr("Please add input your number")
   }else{
     let aldata = data / Division
     settotal(aldata)
     set(ref(db, 'input-counter/'), {
       task: aldata
+    });
+    set(push(ref(db, 'List/')), {
+      list: aldata
     });
     seterr("")
   }
@@ -63,14 +69,24 @@ let handlebutton = ()=>{
   set(ref(db, 'input-counter/'), {
     task: aldata
   });
+  set(push(ref(db, 'List/')), {
+    list: aldata
+  });
   seterr("")
  }else if(!addref.current.value && !Divisionref.current.value && !Minusref.current.value){
-  // settotal( data * Multiplication)
-  let aldata = data * Multiplication
-  settotal(aldata)
-  set(ref(db, 'input-counter/'), {
-    task: aldata
-  });
+  if(Divisionref.current.value > data){
+    seterr("Please add input your number")
+  }else{
+    let aldata = data * Multiplication
+    settotal(aldata)
+    set(ref(db, 'input-counter/'), {
+      task: aldata
+    });
+    set(push(ref(db, 'List/')), {
+      list: Multiplication
+    });
+  }
+ 
  }else{
   seterr("Please one Inputbox")
  }
