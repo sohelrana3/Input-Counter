@@ -13,7 +13,7 @@ function App() {
   let [Minus, setMinus] = useState()
   let [Multiplication, setMultiplication] = useState()
   let [total, settotal] = useState(0)
-  let [firdata, setfirdata] = useState()
+  let [list, setlist] = useState([])
  
   // creaate uesref
   let addref = useRef()
@@ -25,11 +25,21 @@ function App() {
   useEffect(()=>{
     const starCountRef = ref(db, 'input-counter/');
     onValue(starCountRef, (snapshot) => {
-    snapshot.forEach((item)=>{
-      console.log(item.key, "=",item.val());
-      settotal(item.val())
-    })
-});
+      snapshot.forEach((item)=>{
+        console.log(item.key, "=",item.val());
+        settotal(item.val())
+      })
+    });
+
+    // list
+    const listref = ref(db, 'List/');
+    onValue(listref, (snapshot) => {
+      let arr = []
+      snapshot.forEach((item)=>{
+        arr.push({...item.val(),id:item.key});
+      })
+      setlist(arr)
+    });
 
   },[])
 
@@ -46,7 +56,7 @@ let handlebutton = ()=>{
     task: aldata
   });
   set(push(ref(db, 'List/')), {
-    list: aldata
+    list: `${data} + ${add} = ${aldata}`
   });
   
  }else if(!addref.current.value && !Minusref.current.value && !Multiplicationref.current.value){
@@ -59,7 +69,7 @@ let handlebutton = ()=>{
       task: aldata
     });
     set(push(ref(db, 'List/')), {
-      list: aldata
+      list: `${data} / ${Division} = ${aldata}`
     });
     seterr("")
   }
@@ -70,7 +80,7 @@ let handlebutton = ()=>{
     task: aldata
   });
   set(push(ref(db, 'List/')), {
-    list: aldata
+    list: `${data} - ${Minus} = ${aldata}`
   });
   seterr("")
  }else if(!addref.current.value && !Divisionref.current.value && !Minusref.current.value){
@@ -83,7 +93,7 @@ let handlebutton = ()=>{
       task: aldata
     });
     set(push(ref(db, 'List/')), {
-      list: Multiplication
+      list: `${data} * ${Multiplication} = ${aldata}`
     });
   }
  
@@ -128,7 +138,10 @@ let handlebutton = ()=>{
         <div className='w-1/2 pl-14'>
           <h2 className='text-center font-bold text-xl text-white mb-6'>List</h2>
           <ul>
-            <li className='text-white font-medium text-xl'> 10 + 5 = 15</li>
+            {list.map((item)=>(
+              <li className='text-white font-medium text-xl'> {item.list}</li>
+            ))}
+            
           </ul>
         </div>
       </div>
