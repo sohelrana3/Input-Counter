@@ -12,8 +12,8 @@ function App() {
   let [Division, setDivision] = useState()
   let [Minus, setMinus] = useState()
   let [Multiplication, setMultiplication] = useState()
-  let [pushdata, setpushdata] = useState()
   let [total, settotal] = useState(0)
+  let [firdata, setfirdata] = useState()
  
   // creaate uesref
   let addref = useRef()
@@ -22,39 +22,55 @@ function App() {
   let Multiplicationref = useRef()
   
   
-  // 
-//   useEffect(()=>{
-//     const todoref = ref(db, 'Input-Counter/');
-//     onValue(todoref, (snapshot) => {
-//       const data = snapshot.val();
-//       console.log(data);
-//       settotal(data)
-//     });
+  useEffect(()=>{
+    const starCountRef = ref(db, 'input-counter/');
+  onValue(starCountRef, (snapshot) => {
+    snapshot.forEach((item)=>{
+      console.log(item.key, "=",item.val());
+      settotal(item.val())
+    })
+});
 
-//  }, [])
+  },[])
+
 // button
 
 let handlebutton = ()=>{
- 
-  
   // data if funcion
   let data = total
  if(!Divisionref.current.value && !Minusref.current.value && !Multiplicationref.current.value){
-  settotal( data + +add)
+  let aldata = data + +add
+  settotal(aldata)
+  set(ref(db, 'input-counter/'), {
+    task: aldata
+  });
   seterr("")
+  
  }else if(!addref.current.value && !Minusref.current.value && !Multiplicationref.current.value){
   if(Divisionref.current.value > data){
     seterr("Please one total number small")
   }else{
-    settotal( data / Division)
+    let aldata = data / Division
+    settotal(aldata)
+    set(ref(db, 'input-counter/'), {
+      task: aldata
+    });
     seterr("")
   }
  }else if(!addref.current.value && !Divisionref.current.value && !Multiplicationref.current.value){
-  settotal( data - Minus)
+  let aldata = data - Minus
+  settotal(aldata)
+  set(ref(db, 'input-counter/'), {
+    task: aldata
+  });
   seterr("")
  }else if(!addref.current.value && !Divisionref.current.value && !Minusref.current.value){
-  settotal( data * Multiplication)
-  seterr("")
+  // settotal( data * Multiplication)
+  let aldata = data * Multiplication
+  settotal(aldata)
+  set(ref(db, 'input-counter/'), {
+    task: aldata
+  });
  }else{
   seterr("Please one Inputbox")
  }
