@@ -12,13 +12,14 @@ function App() {
   let [Division, setDivision] = useState()
   let [Minus, setMinus] = useState()
   let [Multiplication, setMultiplication] = useState()
+  let [pushdata, setpushdata] = useState()
   let [total, settotal] = useState(0)
  
   // creaate uesref
-  let addref =useRef()
-  let Divisionref =useRef()
-  let Minusref =useRef()
-  let Multiplicationref =useRef()
+  let addref = useRef()
+  let Divisionref = useRef()
+  let Minusref = useRef()
+  let Multiplicationref = useRef()
   
   
   // 
@@ -27,25 +28,27 @@ function App() {
 //     onValue(todoref, (snapshot) => {
 //       const data = snapshot.val();
 //       console.log(data);
-//       setall(data)
-      
-
+//       settotal(data)
 //     });
 
 //  }, [])
 // button
 
 let handlebutton = ()=>{
+ 
   
-
   // data if funcion
   let data = total
  if(!Divisionref.current.value && !Minusref.current.value && !Multiplicationref.current.value){
   settotal( data + +add)
   seterr("")
  }else if(!addref.current.value && !Minusref.current.value && !Multiplicationref.current.value){
-  settotal( data / Division)
-  seterr("")
+  if(Divisionref.current.value > data){
+    seterr("Please one total number small")
+  }else{
+    settotal( data / Division)
+    seterr("")
+  }
  }else if(!addref.current.value && !Divisionref.current.value && !Multiplicationref.current.value){
   settotal( data - Minus)
   seterr("")
@@ -75,9 +78,6 @@ let handlebutton = ()=>{
           </div>
           <div className='flex justify-center'>
               <div className='text-center'>
-              {/* {all.map(item=>(
-                <h3>{item.total}</h3>
-              ))} */}
                 <h2 className='text-white font-extrabold text-4xl' >{total}</h2>
                 <h3 className='text-white font-bold text-xl'>{err}</h3>
               </div>
