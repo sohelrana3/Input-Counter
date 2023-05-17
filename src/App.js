@@ -52,7 +52,9 @@ let handledel = (id)=>{
 let handlebutton = ()=>{
   // data if funcion
   let data = total
- if(!Divisionref.current.value && !Minusref.current.value && !Multiplicationref.current.value){
+  if(!addref.current.value && !Divisionref.current.value && !Minusref.current.value && !Multiplicationref.current.value){
+    seterr("Please give me input box your data")
+  }else if(!Divisionref.current.value && !Minusref.current.value && !Multiplicationref.current.value){
   let alldata = data + +add
   settotal(alldata)
   seterr("")
@@ -62,7 +64,7 @@ let handlebutton = ()=>{
   set(push(ref(db, 'List/')), {
     list: `${data} + ${add} = ${alldata}`
   });
-  
+ 
  }else if(!addref.current.value && !Minusref.current.value && !Multiplicationref.current.value){
   if(Divisionref.current.value > data){
     seterr("Please add input your number")
@@ -88,7 +90,7 @@ let handlebutton = ()=>{
   });
   seterr("")
  }else if(!addref.current.value && !Divisionref.current.value && !Minusref.current.value){
-  if(Divisionref.current.value > data){
+  if(Multiplicationref.current.value > data){
     seterr("Please add input your number")
   }else{
     let alldata = data * Multiplication
@@ -102,7 +104,7 @@ let handlebutton = ()=>{
   }
  
  }else{
-  seterr("Please one Inputbox")
+  seterr("Please give me one Inputbox data")
  }
 
   }
@@ -141,12 +143,12 @@ let handlebutton = ()=>{
         </div>
         <div className='w-1/2 pl-14'>
           <h2 className='text-center font-bold text-xl text-white mb-6'>List History</h2>
-          <ul>
+          <ol className='list-decimal'>
             {list.map((item, index)=>(
-              <li key={index} className='text-white font-medium text-xl'>{index}. {item.list} <button className='border border-white text-red-500 px-4 text-base' onClick={()=> handledel(item.id)}>Delet</button></li>
+              <li key={index} className='text-white font-medium text-xl'>{item.list} <button className='border border-white text-red-500 px-4 text-base' onClick={()=> handledel(item.id)}>Delet</button></li>
             ))}
             
-          </ul>
+          </ol>
         </div>
       </div>
     </section>
