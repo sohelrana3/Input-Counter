@@ -1,6 +1,6 @@
 import './App.css';
 import Headding from './Layouts/Headding';
-import { getDatabase, ref, set, push, onValue } from "firebase/database";
+import { getDatabase, ref, set, push, onValue, remove } from "firebase/database";
 import { useEffect, useRef, useState } from 'react';
 
 function App() {
@@ -43,7 +43,11 @@ function App() {
 
   },[])
 
-// button
+// del button
+let handledel = (id)=>{
+  console.log(id);
+  remove(ref(db, 'List/'+id))
+}
 
 let handlebutton = ()=>{
   // data if funcion
@@ -136,10 +140,10 @@ let handlebutton = ()=>{
           </div>
         </div>
         <div className='w-1/2 pl-14'>
-          <h2 className='text-center font-bold text-xl text-white mb-6'>List</h2>
+          <h2 className='text-center font-bold text-xl text-white mb-6'>List History</h2>
           <ul>
             {list.map((item, index)=>(
-              <li key={index} className='text-white font-medium text-xl'> {item.list}</li>
+              <li key={index} className='text-white font-medium text-xl'>{index}. {item.list} <button className='border border-white text-red-500 px-4 text-base' onClick={()=> handledel(item.id)}>Delet</button></li>
             ))}
             
           </ul>
