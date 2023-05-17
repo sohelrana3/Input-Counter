@@ -49,51 +49,51 @@ let handlebutton = ()=>{
   // data if funcion
   let data = total
  if(!Divisionref.current.value && !Minusref.current.value && !Multiplicationref.current.value){
-  let aldata = data + +add
-  settotal(aldata)
+  let alldata = data + +add
+  settotal(alldata)
   seterr("")
   set(ref(db, 'input-counter/'), {
-    task: aldata
+    task: alldata
   });
   set(push(ref(db, 'List/')), {
-    list: `${data} + ${add} = ${aldata}`
+    list: `${data} + ${add} = ${alldata}`
   });
   
  }else if(!addref.current.value && !Minusref.current.value && !Multiplicationref.current.value){
   if(Divisionref.current.value > data){
     seterr("Please add input your number")
   }else{
-    let aldata = data / Division
-    settotal(aldata)
+    let alldata = data / Division
+    settotal(alldata)
     set(ref(db, 'input-counter/'), {
-      task: aldata
+      task: alldata
     });
     set(push(ref(db, 'List/')), {
-      list: `${data} / ${Division} = ${aldata}`
+      list: `${data} / ${Division} = ${alldata}`
     });
     seterr("")
   }
  }else if(!addref.current.value && !Divisionref.current.value && !Multiplicationref.current.value){
-  let aldata = data - Minus
-  settotal(aldata)
+  let alldata = data - Minus
+  settotal(alldata)
   set(ref(db, 'input-counter/'), {
-    task: aldata
+    task: alldata
   });
   set(push(ref(db, 'List/')), {
-    list: `${data} - ${Minus} = ${aldata}`
+    list: `${data} - ${Minus} = ${alldata}`
   });
   seterr("")
  }else if(!addref.current.value && !Divisionref.current.value && !Minusref.current.value){
   if(Divisionref.current.value > data){
     seterr("Please add input your number")
   }else{
-    let aldata = data * Multiplication
-    settotal(aldata)
+    let alldata = data * Multiplication
+    settotal(alldata)
     set(ref(db, 'input-counter/'), {
-      task: aldata
+      task: alldata
     });
     set(push(ref(db, 'List/')), {
-      list: `${data} * ${Multiplication} = ${aldata}`
+      list: `${data} * ${Multiplication} = ${alldata}`
     });
   }
  
@@ -138,8 +138,8 @@ let handlebutton = ()=>{
         <div className='w-1/2 pl-14'>
           <h2 className='text-center font-bold text-xl text-white mb-6'>List</h2>
           <ul>
-            {list.map((item)=>(
-              <li className='text-white font-medium text-xl'> {item.list}</li>
+            {list.map((item, index)=>(
+              <li key={index} className='text-white font-medium text-xl'> {item.list}</li>
             ))}
             
           </ul>
